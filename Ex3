@@ -1,0 +1,88 @@
+package com.example.ex3;
+
+import android.graphics.Path;
+import android.os.Bundle;
+
+import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.os.Bundle;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity2 extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main2);
+
+        TextView t1 = findViewById(R.id.textView);
+        TextView t2 = findViewById(R.id.textView2);
+        ImageView imageView = findViewById(R.id.imageView);
+
+        String name = getIntent().getStringExtra("Name");
+        String shape = getIntent().getStringExtra("Shape");
+
+        t1.setText("Name: " + name);
+        t2.setText("Shape: " + shape);
+
+        Bitmap bitmap = Bitmap.createBitmap(800, 800, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        Paint paint = new Paint();
+
+        if (shape.equals("Rectangle")) {
+            paint.setStyle(Paint.Style.FILL);
+            paint.setColor(Color.GREEN);
+            canvas.drawRect(200, 200, 600, 500, paint);
+        }
+
+        else if (shape.equals("Circle")) {
+            paint.setStyle(Paint.Style.FILL);
+            paint.setColor(Color.YELLOW);
+            canvas.drawCircle(400, 350, 150, paint);
+        }
+
+        else if (shape.equals("Triangle")) {
+            paint.setStyle(Paint.Style.FILL);
+            paint.setColor(Color.MAGENTA);
+
+            Path path = new Path();
+            path.moveTo(400, 200);
+            path.lineTo(200, 500);
+            path.lineTo(600, 500);
+            path.close();
+            canvas.drawPath(path, paint);
+        }
+
+        else if (shape.equals("House")) {
+
+            // House body
+            paint.setStyle(Paint.Style.FILL);
+            paint.setColor(Color.BLUE);
+            canvas.drawRect(250, 350, 550, 600, paint);
+
+            // Roof
+            paint.setColor(Color.RED);
+            Path roof = new Path();
+            roof.moveTo(250, 350);
+            roof.lineTo(400, 200);
+            roof.lineTo(550, 350);
+            roof.close();
+            canvas.drawPath(roof, paint);
+        }
+
+        imageView.setImageBitmap(bitmap);
+
+
+    }
+}
