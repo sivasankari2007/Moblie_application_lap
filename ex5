@@ -1,0 +1,42 @@
+package com.example.ex5;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.os.Build;
+import android.os.Bundle;
+import android.widget.Button;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+public class MainActivity extends AppCompatActivity {
+ Button notifyBtn;
+ NotificationManager notificationManager;
+ String CHANNEL_ID = "MyChannel";
+ @Override
+ protected void onCreate(Bundle savedInstanceState) {
+ super.onCreate(savedInstanceState);
+ setContentView(R.layout.activity_main);
+ notifyBtn = findViewById(R.id.notifyBtn);
+ notificationManager =
+ (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+ createNotificationChannel();
+ notifyBtn.setOnClickListener(v -> showNotification());
+ }
+ private void showNotification() {
+ NotificationCompat.Builder builder =
+ new NotificationCompat.Builder(this, CHANNEL_ID)
+ .setSmallIcon(android.R.drawable.ic_dialog_info)
+ .setContentTitle("Reminder")
+ .setContentText("This is your event reminder notification")
+ .setPriority(NotificationCompat.PRIORITY_HIGH)
+ .setAutoCancel(true);
+ notificationManager.notify(1, builder.build());
+ }
+ private void createNotificationChannel() {
+ if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+ NotificationChannel channel = new NotificationChannel(
+ CHANNEL_ID,
+ "My Notification Channel",
+ NotificationManager.IMPORTANCE_HIGH
+ );
+ channel.enableVibration(true);
+ notificationManager.createNotificationChannel(channel);
+ }}}
