@@ -1,0 +1,73 @@
+package com.example.ex9;
+
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.EditText;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
+public class MainActivity extends AppCompatActivity {
+
+    EditText et1, et2;
+    Button btnAdd;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        et1 = findViewById(R.id.editTextText2);
+        et2 = findViewById(R.id.editTextText3);
+        btnAdd = findViewById(R.id.button2);
+
+        btnAdd.setOnClickListener(v -> {
+
+            String num1 = et1.getText().toString().trim();
+            String num2 = et2.getText().toString().trim();
+
+            AlertDialog.Builder builder =
+                    new AlertDialog.Builder(MainActivity.this);
+
+
+            if (!num1.isEmpty() && !num2.isEmpty()) {
+
+                int a = Integer.parseInt(num1);
+                int b = Integer.parseInt(num2);
+                int sum= a + b;
+
+                builder.setTitle("Addition Result");
+                builder.setMessage("Sum = " + sum);
+                builder.setPositiveButton("OK", null);
+                builder.show();
+            }
+
+            else if (!num1.isEmpty() && num2.isEmpty()) {
+
+                int number = Integer.parseInt(num1);
+                StringBuilder table = new StringBuilder();
+
+                for (int i = 1; i <= 10; i++) {
+                    table.append(number)
+                            .append(" + ")
+                            .append(i)
+                            .append(" = ")
+                            .append(number + i)
+                            .append("\n");
+                }
+
+                builder.setTitle("Addition Table of " + number);
+                builder.setMessage(table.toString());
+                builder.setPositiveButton("OK", null);
+                builder.show();
+            }
+
+            else {
+                builder.setTitle("Error");
+                builder.setMessage("Please enter at least one number");
+                builder.setPositiveButton("OK", null);
+                builder.show();
+            }
+        });
+    }
+}
